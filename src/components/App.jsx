@@ -54,6 +54,21 @@ class App extends Component {
     );
   };
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
+
+  componentDidMount() {
+    const contacts = localStorage.getItem('contacts');
+    const parsedContacts = JSON.parse(contacts);
+
+    if (parsedContacts) {
+      this.setState({ contacts: parsedContacts });
+    }
+  }
+
   render() {
     const visibleFilterList = this.getVisibleFilterList();
 
@@ -66,7 +81,7 @@ class App extends Component {
           justifyContent: 'center',
           alignItems: 'center',
           fontSize: 20,
-          color: '#010101'
+          color: '#010101',
         }}
       >
         <h1>Phonebook</h1>
